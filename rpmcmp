@@ -8,9 +8,10 @@ import operator
 
 class PackageCompare:
 	def __init__(self):
-		self.packages     = {}
-		self.files        = []
-		self.max_rpmname  = 0
+		self.packages	 = {}
+		self.files		 = []
+		self.max_rpmname = 0
+		self.wrong		 = False
 		return
 
 	def	do_file( self, f = sys.stdin, name = '{stdin}' ):
@@ -46,6 +47,10 @@ class PackageCompare:
 		self._name_compactor()
 		keys = self.packages.keys()
 		keys.sort()
+		if len(keys) == 0:
+			# No RPM packages seen, not good
+			self.wrong = True
+			return
 		# Print title
 		fmt = '%%-%ds' % self.max_rpmname
 		title = fmt % 'Package Name'
@@ -77,12 +82,16 @@ class PackageCompare:
 					i += 1
 				else:
 					check = ' '
+					self.wrong = True
 				n = len(self.shorter[fn])
 				mark = ' ' + (' ' * int((n/2)+0.5)) + check
 				fmt = ' %%-%ds' % n
 				line += fmt % mark
 			print line
 		return
+
+	def	status( self ):
+		return 1 if self.wrong else 0
 
 if __name__ == "__main__":
 	pc = PackageCompare()
@@ -98,3 +107,4 @@ if __name__ == "__main__":
 			pc.do_file( f, fn )
 			f.close()
 	pc.report()
+	sys.exit(pc.status())
