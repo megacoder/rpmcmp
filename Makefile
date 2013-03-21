@@ -6,7 +6,7 @@ INSTALL	=install
 all::	rpmcmp
 
 check:: rpmcmp list-a list-b
-	./rmpcmp list-a list-b
+	./rpmcmp list-a list-b
 
 install:: rpmcmp
 	${INSTALL} -D rpmcmp ${BINDIR}/rpmcmp

@@ -14,7 +14,7 @@ class PackageCompare:
 		return
 
 	def	do_file( self, f = sys.stdin, name = '{stdin}' ):
-		if len(name) < 3:
+		if len(name) < 2:
 			name = ' ' + name
 		self.files.append( name )
 		for line in f:
@@ -51,7 +51,7 @@ class PackageCompare:
 		title = fmt % 'Package Name'
 		for fn in self.files:
 			sfn = self.shorter[fn]
-			fmt = ' %%-%ds' % max( 3, len(sfn) )
+			fmt = ' %%-%ds' % max( 2, len(sfn) )
 			title += (fmt % sfn)
 		print title
 		# Print colum headers
@@ -59,7 +59,7 @@ class PackageCompare:
 		bars = fmt % ('-' * self.max_rpmname)
 		for fn in self.files:
 			sfn = self.shorter[fn]
-			lsfn = max( 3, len(sfn) )
+			lsfn = max( 2, len(sfn) )
 			fmt = ' %%-%ds' % lsfn
 			bars += (' ' + '-'*lsfn)
 		print bars
